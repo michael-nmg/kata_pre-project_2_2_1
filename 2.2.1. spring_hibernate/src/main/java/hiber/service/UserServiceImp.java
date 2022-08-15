@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
-
     @Autowired
     private UserDao userDao;
 
@@ -23,12 +22,18 @@ public class UserServiceImp implements UserService {
     @Transactional(readOnly = true)
     @Override
     public List<User> listUsers() {
+        System.out.print("\n--------------------------------------------\n");
+        System.out.format("\tAll users:");
+        System.out.print("\n--------------------------------------------\n\n");
         return userDao.listUsers();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> listUsers(String model, Integer series) {
-        return userDao.listUsers(model, series);
+    public List<User> listUsersByCar(String model, Integer series) {
+        System.out.print("\n--------------------------------------------\n");
+        System.out.format("\tUsers by car: %s-%s", model, series);
+        System.out.print("\n--------------------------------------------\n\n");
+        return userDao.listUsersByCar(model, series);
     }
 }
