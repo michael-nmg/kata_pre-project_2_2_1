@@ -18,8 +18,9 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
     @OneToOne
-    @JoinColumn(name = "car_id")
+    @MapsId
     private Car car;
 
     public User() {}

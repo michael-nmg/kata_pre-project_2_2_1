@@ -2,7 +2,7 @@ package hiber;
 
 import hiber.config.AppConfig;
 import hiber.model.*;
-import hiber.service.*;
+import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.SQLException;
@@ -12,23 +12,14 @@ public class MainApp {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = context.getBean(UserService.class);
-        CarService carService = context.getBean(CarService.class);
 
-        userService.add(new User("User1", "Lastname1", "user1@mail.ru"));
-        Car car = new Car("model1", 111);
-        carService.add(car);
-        userService.add(new User("User2", "Lastname2", "user2@mail.ru", car));
-        userService.add(new User("User3", "Lastname3", "user3@mail.ru"));
-        car = new Car("model2", 222);
-        carService.add(car);
-        userService.add(new User("User4", "Lastname4", "user4@mail.ru", car));
-        userService.add(new User("User5", "Lastname5", "user5@mail.ru"));
-        car = new Car("model3", 333);
-        carService.add(car);
-        userService.add(new User("User6", "Lastname6", "user6@mail.ru", car));
-        car = new Car("model1", 111);
-        carService.add(car);
-        userService.add(new User("User7", "Lastname7", "user7@mail.ru", car));
+        userService.add( new User("User1", "Lastname1", "user1@mail.ru", new Car()) );
+        userService.add( new User("User2", "Lastname2", "user2@mail.ru", new Car("model1", 111)) );
+        userService.add( new User("User3", "Lastname3", "user3@mail.ru", new Car()) );
+        userService.add( new User("User4", "Lastname4", "user4@mail.ru", new Car("model2", 222)) );
+        userService.add( new User("User5", "Lastname5", "user5@mail.ru", new Car()) );
+        userService.add( new User("User6", "Lastname6", "user6@mail.ru", new Car("model3", 333)) );
+        userService.add( new User("User7", "Lastname7", "user7@mail.ru", new Car("model1", 111)) );
 
         userService.listUsers().forEach(MainApp::usersMapping);
         userService.listUsersByCar("model1", 111).forEach(MainApp::usersMapping);
@@ -41,7 +32,7 @@ public class MainApp {
         System.out.println("First Name = " + user.getFirstName());
         System.out.println("Last Name = " + user.getLastName());
         System.out.println("Email = " + user.getEmail());
-        if (user.getCar() != null) {
+        if (user.getCar().getModel() != null) {
             System.out.println("Car = " + user.getCar());
         }
         System.out.println();
